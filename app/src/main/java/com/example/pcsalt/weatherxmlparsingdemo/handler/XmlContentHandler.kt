@@ -35,6 +35,8 @@ class XmlContentHandler : DefaultHandler() {
         isCurrent = false
         if (currentTag == WeatherTags.CURRENT_CONDITION) {
             when (localName) {
+                WeatherTags.OBSERVATION_TIME -> data.currentCondition?.observationTime =
+                    currentValue
                 WeatherTags.TEMP_C -> data.currentCondition?.tempC = currentValue.toInt()
                 WeatherTags.TEMP_F -> data.currentCondition?.tempF = currentValue.toInt()
                 WeatherTags.WEATHER_ICON_URL -> data.currentCondition?.weatherIconUrl = currentValue

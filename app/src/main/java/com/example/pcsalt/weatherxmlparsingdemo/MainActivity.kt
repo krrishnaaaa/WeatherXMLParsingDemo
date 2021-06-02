@@ -1,8 +1,9 @@
 package com.example.pcsalt.weatherxmlparsingdemo
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pcsalt.weatherxmlparsingdemo.databinding.ActivityMainBinding
+import com.example.pcsalt.weatherxmlparsingdemo.dto.Data
 import com.example.pcsalt.weatherxmlparsingdemo.handler.XmlContentHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -15,9 +16,14 @@ import javax.xml.parsers.SAXParser
 import javax.xml.parsers.SAXParserFactory
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private var weatherData: Data? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         getData()
     }
@@ -35,11 +41,25 @@ class MainActivity : AppCompatActivity() {
             val inputStream: InputStream = URL(dataPath).openStream()
             reader.parse(InputSource(inputStream))
 
-            Log.d("main activity", "after parsing ${handler.getWeatherData().currentCondition}")
+            weatherData = handler.getWeatherData()
+
             // display response in UI
             launch(Dispatchers.Main) {
-
+                updateUi()
             }
         }
+    }
+
+    private fun updateUi() {
+
+        weatherData?.currentCondition?.let {
+            binding.apply {
+                tvObserveTime.text = it.observationTime
+                tvTemp.text = String.format("%d C (%d F)", it.tempC, it.tempF)
+                tvUvLevel.text = "UV Index ${it.uvIndex}"
+                tvTempDesc.text = it.weatherDesc
+            }
+        }
+
     }
 }
