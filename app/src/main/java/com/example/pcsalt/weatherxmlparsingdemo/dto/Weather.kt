@@ -1,9 +1,7 @@
 package com.example.pcsalt.weatherxmlparsingdemo.dto
 
-import java.util.*
-
 class Weather {
-    var date: Date? = null
+    var date: String? = null
     var astronomy: Astronomy? = null
     var maxtempC = 0
     var maxtempF = 0

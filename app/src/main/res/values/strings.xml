@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Weather XML Parsing Demo</string>
+    <string name="c_and_f">%1$d &#xb0;C (%2$d &#xb0;F)</string>
+    <string name="uv_index">UV Index %1$d</string>
+    <string name="feels_like">Feels Like %1$d &#xb0;C (%2$d &#xb0;F)</string>
+    <string name="msg_c_and_f">%1$s\n%2$d &#xb0;C\n%3$d &#xb0;F</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="avg">Avg</string>
 </resources>

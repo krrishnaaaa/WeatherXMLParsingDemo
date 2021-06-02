@@ -2,6 +2,9 @@ package com.example.pcsalt.weatherxmlparsingdemo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pcsalt.weatherxmlparsingdemo.adapter.WeatherAdapter
 import com.example.pcsalt.weatherxmlparsingdemo.databinding.ActivityMainBinding
 import com.example.pcsalt.weatherxmlparsingdemo.dto.Data
 import com.example.pcsalt.weatherxmlparsingdemo.handler.XmlContentHandler
@@ -54,11 +57,27 @@ class MainActivity : AppCompatActivity() {
 
         weatherData?.currentCondition?.let {
             binding.apply {
-                tvObserveTime.text = it.observationTime
-                tvTemp.text = String.format("%d C (%d F)", it.tempC, it.tempF)
-                tvUvLevel.text = "UV Index ${it.uvIndex}"
+                tvTemp.text = getString(R.string.c_and_f, it.tempC, it.tempF)
+                tvFeelsLike.text = getString(R.string.feels_like, it.FeelsLikeC, it.FeelsLikeF)
+                tvUvLevel.text = getString(R.string.uv_index, it.uvIndex)
                 tvTempDesc.text = it.weatherDesc
             }
+        }
+
+        weatherData?.weather?.let {
+            val adapter = WeatherAdapter()
+            adapter.weatherList.addAll(it)
+
+            val linearLayoutManager = LinearLayoutManager(this)
+            binding.rvWeather.layoutManager = linearLayoutManager
+            binding.rvWeather.addItemDecoration(
+                DividerItemDecoration(
+                    this,
+                    linearLayoutManager.orientation
+                )
+            )
+            binding.rvWeather.adapter = adapter
+
         }
 
     }
